@@ -36,11 +36,8 @@ if (!window._flutter) {
 _flutter.buildConfig = {"engineRevision":"e4b8dca3f1b4ede4c30371002441c88c12187ed6","builds":[{"compileTarget":"dart2wasm","renderer":"skwasm","mainWasmPath":"main.dart.wasm","jsSupportRuntimePath":"main.dart.mjs"},{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"}]};
 
 
-var loading = document.querySelector('#loading');
-
 var flutterConfig = {
     multiViewEnabled: flet.multiView,
-    entrypointBaseUrl: flet.entrypointBaseUrl,
     assetBase: flet.assetBase
 };
 if (flet.webRenderer != "auto") {
@@ -54,18 +51,11 @@ if (flet.noCdn) {
 _flutter.loader.load({
     config: flutterConfig,
     serviceWorkerSettings: {
-        serviceWorkerVersion: "149699814" /* Flutter's service worker is deprecated and will be removed in a future Flutter release. */,
+        serviceWorkerVersion: "3764088369" /* Flutter's service worker is deprecated and will be removed in a future Flutter release. */,
     },
     onEntrypointLoaded: async function (engineInitializer) {
-        loading.classList.add('main_done');
         const engine = await engineInitializer.initializeEngine(flutterConfig);
-
-        loading.classList.add('init_done');
         flet.flutterApp = await engine.runApp();
         flet.flutterAppResolve(flet.flutterApp);
-
-        window.setTimeout(function () {
-            loading.remove();
-        }, 200);
     }
 });
