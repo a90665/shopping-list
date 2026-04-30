@@ -20,7 +20,7 @@
     var flet = {
       pyodide: true,
       multiView: false,
-      noCdn: "True".toLowerCase() == "true",
+      noCdn: "False".toLowerCase() == "true",
       webSocketEndpoint: "/ws",
       entrypointBaseUrl: "/shopping-list/",
       assetBase: "/shopping-list/",
@@ -114,31 +114,6 @@
     }
   </script>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-
-<style id="shopping-list-loading-style">
-  #startup-loading {
-    position: fixed;
-    inset: 0;
-    z-index: 999999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background: #ffffff;
-    color: #222222;
-    font-family: Arial, 'Microsoft JhengHei', sans-serif;
-  }
-  #startup-loading .title {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-  #startup-loading .sub {
-    font-size: 15px;
-    color: #666666;
-  }
-</style>
-
 </head>
 
 <body>
@@ -150,24 +125,5 @@
   <script src="flutter_bootstrap.js" async=""></script>
 
 
-
-
-<script id="shopping-list-sw-register">
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
-    });
-  }
-
-  window.addEventListener('flutter-first-frame', function () {
-    var loading = document.getElementById('startup-loading');
-    if (loading) loading.remove();
-  });
-
-  setTimeout(function () {
-    var loading = document.getElementById('startup-loading');
-    if (loading) loading.remove();
-  }, 15000);
-</script>
 
 </body></html>

@@ -9,15 +9,6 @@
     },
     
     {
-        "family": "Roboto",
-        "fonts": [
-            {
-                "asset": "fonts/roboto.woff2"
-            }
-        ]
-    },
-    
-    {
         "family": "packages/cupertino_icons/CupertinoIcons",
         "fonts": [
             {
