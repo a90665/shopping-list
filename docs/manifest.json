@@ -1,6 +1,6 @@
 {
-    "name": "ShoppingListApp",
-    "short_name": "shoppinglistapp",
+    "name": "荳比小窩購物清單",
+    "short_name": "shopping_list_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",
