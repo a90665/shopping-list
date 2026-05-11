@@ -208,7 +208,7 @@ async def main(page: ft.Page):
         max_length=10,
     )
     mobile_item_button_label = ft.Text(
-        "輸入/選擇",
+        "選擇 / 新增",
         size=15,
         weight=ft.FontWeight.BOLD,
         color="grey",
@@ -895,7 +895,7 @@ async def main(page: ft.Page):
             mobile_item_button_label.value = value
             mobile_item_button_label.color = "black"
         else:
-            mobile_item_button_label.value = "輸入/選擇"
+            mobile_item_button_label.value = "選擇 / 新增項目"
             mobile_item_button_label.color = "grey"
 
     def get_item_dropdown_text():
@@ -2847,12 +2847,17 @@ async def main(page: ft.Page):
                     [
                         ft.Row(
                             [
-                                ft.Checkbox(
-                                    value=bought,
-                                    width=30,
-                                    height=30,
-                                    on_change=lambda e, task=checkbox_changed:
-                                        page.run_task(task, e)
+                                ft.Container(
+                                    width=46,
+                                    height=46,
+                                    alignment=ft.Alignment.CENTER,
+                                    content=ft.Checkbox(
+                                        value=bought,
+                                        width=44,
+                                        height=44,
+                                        on_change=lambda e, task=checkbox_changed:
+                                            page.run_task(task, e)
+                                    )
                                 ),
                                 ft.Container(
                                     width=28,
@@ -3119,13 +3124,13 @@ async def main(page: ft.Page):
         }
         mark_local_write()
         refresh_home_preview_after_local_change(list_name)
-        if len(items_view.controls) == 1 and isinstance(items_view.controls[0], ft.Text):
-            items_view.controls.clear()
-        items_view.controls.insert(
-            0,
-            render_item_row(list_name, temp_item_id, new_item_data)
-        )
+        # Re-render from cache immediately.
+        # The item list may be wrapped inside ReorderableListView, so directly inserting
+        # into items_view.controls is not reliable on mobile / web.
+        render_items_from_cache(list_name)
         scroll_items_to_top()
+        page.update()
+
         await sync_history_after_add(name, clear_input, save_to_history)
         async def create_new_remote():
             try:
@@ -3785,11 +3790,11 @@ async def main(page: ft.Page):
                         width=200,
                         content=build_item_qty_controls(200)
                     ),
+                    add_item_button,
                     item_input_container := ft.Container(
-                        content=desktop_item_input,
+                        content=mobile_item_button,
                         margin=ft.Margin(0, 0, 0, 4)
-                    ),
-                    add_item_button
+                    )
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 spacing=6,
@@ -3846,46 +3851,86 @@ async def main(page: ft.Page):
                 [
                     ft.Row(
                         [
-                            make_center_icon(
-                                ft.Icons.ARROW_BACK, "返回", show_home_screen,
-                                width=42, height=34, icon_size=22
+                            # Left: back button
+                            ft.Container(
+                                width=42,
+                                height=38,
+                                alignment=ft.Alignment.CENTER_LEFT,
+                                content=make_center_icon(
+                                    ft.Icons.ARROW_BACK,
+                                    "返回",
+                                    show_home_screen,
+                                    width=40,
+                                    height=36,
+                                    icon_size=22
+                                )
                             ),
-                            ft.Row(
-                                [
-                                    ft.IconButton(
-                                        ft.Icons.REFRESH,
-                                        tooltip="重整",
-                                        width=30,
-                                        height=32,
-                                        icon_size=17,
-                                        on_click=lambda e: page.run_task(refresh_remote_changes, e)
-                                    ),
-                                    ft.IconButton(
-                                        ft.Icons.DONE_ALL,
-                                        tooltip="一鍵勾選／取消",
-                                        width=30,
-                                        height=32,
-                                        icon_size=17,
-                                        on_click=lambda e: page.run_task(toggle_all_current_items, e)
-                                    ),
-                                    ft.IconButton(
-                                        ft.Icons.DELETE_OUTLINE,
-                                        icon_color="red",
-                                        tooltip="刪除目前清單",
-                                        width=32,
-                                        height=32,
-                                        icon_size=18,
-                                        on_click=lambda e: page.run_task(delete_current_list, e)
-                                    )
-                                ],
-                                alignment=ft.MainAxisAlignment.END,
-                                vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                                spacing=2
+
+                            # Middle: refresh and select-all, evenly distributed
+                            ft.Container(
+                                expand=True,
+                                height=38,
+                                alignment=ft.Alignment.CENTER,
+                                content=ft.Row(
+                                    [
+                                        ft.Container(
+                                            width=42,
+                                            height=38,
+                                            alignment=ft.Alignment.CENTER,
+                                            border_radius=8,
+                                            bgcolor="#F5F5F5",
+                                            content=ft.IconButton(
+                                                ft.Icons.REFRESH,
+                                                tooltip="重整",
+                                                width=40,
+                                                height=36,
+                                                icon_size=19,
+                                                on_click=lambda e: page.run_task(refresh_remote_changes, e)
+                                            )
+                                        ),
+                                        ft.Container(
+                                            width=42,
+                                            height=38,
+                                            alignment=ft.Alignment.CENTER,
+                                            border_radius=8,
+                                            bgcolor="#F5F5F5",
+                                            content=ft.IconButton(
+                                                ft.Icons.DONE_ALL,
+                                                tooltip="一鍵勾選／取消",
+                                                width=40,
+                                                height=36,
+                                                icon_size=19,
+                                                on_click=lambda e: page.run_task(toggle_all_current_items, e)
+                                            )
+                                        )
+                                    ],
+                                    alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+                                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                                    spacing=0
+                                )
+                            ),
+
+                            # Right: delete button
+                            ft.Container(
+                                width=42,
+                                height=38,
+                                alignment=ft.Alignment.CENTER_RIGHT,
+                                border_radius=8,
+                                bgcolor="#FFF5F5",
+                                content=ft.IconButton(
+                                    ft.Icons.DELETE_OUTLINE,
+                                    icon_color="red",
+                                    tooltip="刪除目前清單",
+                                    width=40,
+                                    height=36,
+                                    icon_size=20,
+                                    on_click=lambda e: page.run_task(delete_current_list, e)
+                                )
                             )
                         ],
                         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                         vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                        spacing=2
+                        spacing=4
                     ),
                     current_list_name_container,
                     ft.Divider(),
@@ -4204,15 +4249,25 @@ async def main(page: ft.Page):
                 item_dropdown.menu_height = 260
                 desktop_item_input.width = 200
                 desktop_item_input.height = 50
+
+                # mobile_item_input only keeps internal value; it is not shown on screen.
                 mobile_item_input.width = desktop_item_input.width
                 mobile_item_input.height = desktop_item_input.height
+
+                # Show button only. Do not show TextField.
                 mobile_item_button.width = desktop_item_input.width
                 mobile_item_button.height = desktop_item_input.height
+
+                # No need to make mobile_item_input editable here, because user should type
+                # only inside the floating search/input popup.
                 try:
-                    mobile_item_input.read_only = False
+                    mobile_item_input.read_only = True
                 except Exception:
                     pass
-                item_input_container.content = desktop_item_input
+
+                item_input_container.content = mobile_item_button
+                update_mobile_item_button_label()
+
                 history_suggestion_panel.width = desktop_item_input.width
                 force_item_dropdown_menu_up()
                 hide_history_suggestions()
