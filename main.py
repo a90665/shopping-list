@@ -1161,15 +1161,15 @@ async def main(page: ft.Page):
                     ft.Row(
                         [
                             ft.TextButton(
-                                "新增",
-                                on_click=use_typed_text,
+                                "取消",
+                                on_click=lambda e: dismiss_history_overlay(e),
                                 style=ft.ButtonStyle(
                                     text_style=ft.TextStyle(size=17, weight=ft.FontWeight.BOLD)
                                 )
                             ),
                             ft.TextButton(
-                                "取消",
-                                on_click=lambda e: dismiss_history_overlay(e),
+                                "新增",
+                                on_click=use_typed_text,
                                 style=ft.ButtonStyle(
                                     text_style=ft.TextStyle(size=17, weight=ft.FontWeight.BOLD)
                                 )
