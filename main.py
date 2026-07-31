@@ -6,7 +6,7 @@ import re
 import inspect
 
 PROJECT_ID = "ourshoppinglist-7e6c7"
-API_KEY = "AIzaSyC5hpB-l_gLAAvH5hTDVobcHxu2x6Gju4I"
+API_KEY = "AIzaSyAD6MBeQY-3F4d4jsaIi6e32LTDpGhDgKg"
 DB_URL = f"https://{PROJECT_ID}-default-rtdb.firebaseio.com"
 AUTH_SIGNIN = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={API_KEY}"
 AUTH_SIGNUP = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={API_KEY}"
