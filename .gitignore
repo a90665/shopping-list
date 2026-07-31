@@ -1,7 +1,0 @@
-﻿build/
-release/
-deployed_app.zip
-deployed_check/
-shopping-list_web_stage/
-__pycache__/
-*.pyc
