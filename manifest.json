@@ -1,7 +1,7 @@
 {
-  "name": "荳比小窩購物清單",
-  "short_name": "購物清單",
-  "description": "荳比小窩購物清單",
+  "name": "?單?撠版鞈潛皜",
+  "short_name": "鞈潛皜",
+  "description": "?單?撠版鞈潛皜",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -10,28 +10,29 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icons/Icon-192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/Icon-512.png",
+      "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/Icon-maskable-192.png",
+      "src": "icons/icon-maskable-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icons/Icon-maskable-512.png",
+      "src": "icons/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ]
 }
+
