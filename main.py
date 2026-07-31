@@ -78,8 +78,6 @@ async def request_json(method, url, payload=None):
 async def main(page: ft.Page):
     page.title = "荳比小窩購物清單"
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.window_width = 720
-    page.window_height = 850
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.scroll = ft.ScrollMode.AUTO
     page.padding = 0
@@ -777,8 +775,8 @@ async def main(page: ft.Page):
             )
         )
     def get_history_overlay_rect(panel_width, panel_height):
-        screen_width = int(page.width or page.window_width or 720)
-        screen_height = int(page.height or page.window_height or 850)
+        screen_width = int(page.width or 720)
+        screen_height = int(page.height or 850)
         safe_top = MOBILE_SAFE_TOP_PADDING if screen_width < 650 else 0
 
         # Put the floating history/search menu at the horizontal center near the
@@ -811,7 +809,7 @@ async def main(page: ft.Page):
         if not matches:
             hide_history_suggestions()
             return
-        screen_width = int(page.width or page.window_width or 720)
+        screen_width = int(page.width or 720)
         panel_width = min(360, max(240, screen_width - 32))
         row_height = 42
         panel_height = min(300, max(52, len(matches) * row_height + 12))
@@ -1029,8 +1027,8 @@ async def main(page: ft.Page):
         mark_user_activity()
         remove_history_overlay()
 
-        screen_width = int(page.width or page.window_width or 720)
-        screen_height = int(page.height or page.window_height or 850)
+        screen_width = int(page.width or 720)
+        screen_height = int(page.height or 850)
 
         panel_width = min(360, max(260, screen_width - 32))
         row_height = 44
@@ -4025,8 +4023,8 @@ async def main(page: ft.Page):
         quick_new_input.on_change = on_quick_new_input_change
         quick_new_input.on_submit = lambda e: page.run_task(add_quick_item, e)
         def apply_responsive_layout(e=None):
-            screen_width = int(page.width or page.window_width or 720)
-            screen_height = int(page.height or page.window_height or 850)
+            screen_width = int(page.width or 720)
+            screen_height = int(page.height or 850)
             is_mobile = screen_width < 650
             is_mobile_layout["value"] = is_mobile
             page.scroll = ft.ScrollMode.AUTO
